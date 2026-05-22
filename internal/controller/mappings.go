@@ -15,4 +15,10 @@ const (
 
 	RB = 311
 	LB = 310
+
+	// FACE BUTTONS
+	A = 304
+	B = 305
+	X = 307
+	Y = 308
 )

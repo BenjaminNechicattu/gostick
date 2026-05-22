@@ -41,3 +41,23 @@ func HandleDpadY(
 		keyboard.KeyDown(uinput.KeyDown)
 	}
 }
+
+// A -> ENTER
+func HandleAButton(
+	keyboard uinput.Keyboard,
+	value int32,
+) {
+	if value == 1 {
+		keyboard.KeyPress(uinput.KeyEnter)
+	}
+}
+
+// X -> ESC
+func HandleXButton(
+	keyboard uinput.Keyboard,
+	value int32,
+) {
+	if value == 1 {
+		keyboard.KeyPress(uinput.KeyEsc)
+	}
+}

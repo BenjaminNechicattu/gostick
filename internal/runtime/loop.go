@@ -167,12 +167,35 @@ func eventLoop(
 
 			mouse.LeftClick()
 
+			
+
+
 		// LB -> RIGHT CLICK
 		case ev.Type == 1 &&
 			ev.Code == controller.LB &&
 			ev.Value == 1:
 
 			mouse.RightClick()
+
+		// A -> ENTER
+		case ev.Type == 1 &&
+			ev.Code == controller.A &&
+			ev.Value == 1:
+
+			input.HandleAButton(
+				keyboard,
+				ev.Value,
+			)
+
+		// X -> ESC
+		case ev.Type == 1 &&
+			ev.Code == controller.X &&
+			ev.Value == 1:
+
+			input.HandleXButton(
+				keyboard,
+				ev.Value,
+			)
 
 		// RT -> DRAG
 		case ev.Type == 3 &&
