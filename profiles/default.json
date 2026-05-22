@@ -1,0 +1,7 @@
+{
+  "deadzone": 2500,
+  "sensitivity": 15,
+  "precisionSensitivity": 6,
+  "scrollThreshold": 4000,
+  "pollRateMs": 8
+}
