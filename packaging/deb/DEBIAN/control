@@ -1,0 +1,8 @@
+Package: gostick
+Version: 0.1.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: BenG
+Description: Native Linux desktop control using a game controller
+Depends: libc6

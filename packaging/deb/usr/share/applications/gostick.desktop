@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=GoStick
+Comment=Game controller desktop control
+Exec=/usr/bin/gostick
+Icon=gostick
+Terminal=false
+Type=Application
+Categories=Utility;
