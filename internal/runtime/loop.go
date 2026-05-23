@@ -3,6 +3,7 @@ package runtime
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"gostick/internal/config"
@@ -22,11 +23,36 @@ var (
 
 func Start() {
 
-	controllerDevice := controller.FindController()
+	var controllerDevice *evdev.InputDevice
 
-	if controllerDevice == nil {
-		fmt.Println("Controller not found")
-		return
+	dots := 0
+
+	searchticker := time.NewTicker(
+		time.Duration(config.DefaultSearchPollRateMs) *
+			time.Millisecond,
+	)
+
+	defer searchticker.Stop()
+
+	for controllerDevice == nil {
+
+		<-searchticker.C
+
+		controllerDevice = controller.FindController()
+
+		if controllerDevice != nil {
+			log.Println("\rController connected \n")
+			searchticker.Stop()
+			break
+		}
+
+		dots++
+
+		if dots > 4 {
+			dots = 1
+		}
+
+		fmt.Printf("\rSearching for controller%s", strings.Repeat(".", dots))
 	}
 
 	var err error
@@ -55,7 +81,7 @@ func Start() {
 
 	name, _ := controllerDevice.Name()
 
-	fmt.Println("Connected:", name)
+	log.Printf("Connected:", name)
 
 	go eventLoop(controllerDevice)
 
@@ -82,6 +108,7 @@ func Start() {
 			appState.ScrollY,
 			config.DefaultScrollThreshold,
 		)
+
 	}
 }
 
@@ -102,7 +129,8 @@ func eventLoop(
 
 		ev, err := controllerDevice.ReadOne()
 		if err != nil {
-			log.Fatal(err)
+			log.Println("Connection to controller lost", err)
+			Start()
 		}
 
 		switch {
@@ -166,9 +194,6 @@ func eventLoop(
 			ev.Value == 1:
 
 			mouse.LeftClick()
-
-			
-
 
 		// LB -> RIGHT CLICK
 		case ev.Type == 1 &&
